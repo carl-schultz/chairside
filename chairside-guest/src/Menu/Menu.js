@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import MenuCategoryLabel from "./MenuCategoryLabel";
 import CategoryCarousel from "./CategoryCarousel";
 import ItemList from "./ItemList";
@@ -22,7 +22,7 @@ const Menu = (props) => {
         <MenuCategoryLabel label="Our Menu" />
       </Box>
       <Grid float="left" marginTop="10px" width="100%">
-        <CategoryCarousel />
+        <CategoryCarousel items={items} />
       </Grid>
       <Box marginTop="65px">
         <ItemList items={items} serveDrawer={serveDrawer} />
