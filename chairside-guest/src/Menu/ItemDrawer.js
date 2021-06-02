@@ -13,7 +13,7 @@ import {
   Image,
   Stack,
   Checkbox,
-  Input,
+  Textarea,
   Divider,
   Box,
   Radio,
@@ -25,8 +25,6 @@ function ItemDrawer(props) {
   const isOpen = props.isOpen;
   const onClose = props.onClose;
   const itemDetails = props.itemDetails;
-
-  //come up with some sort of way to conditionally render sizes
 
   return (
     <Drawer colorScheme="green" isOpen={isOpen} placement="bottom" onClose={onClose} isFullHeight="true">
@@ -45,13 +43,13 @@ function ItemDrawer(props) {
         <DrawerBody position="relative" bottom="10px" paddingBottom="15px">
           <Center>
             <Stack maxWidth="320px">
-              <Image src={itemDetails.img} w="320px" h="145px" objectFit="cover" rounded="25px"></Image>
+              <Image src={itemDetails.img} w="320px" h="145px" objectFit="cover" rounded="20px"></Image>
               <Text paddingLeft="5px" font="body" fontSize="md" color="300" lineHeight="normal">
                 {itemDetails.description}
               </Text>
               <Box>
                 <Formik
-                  initialValues={{ specialInstructions: "", addons: [], price: "", size: "" }}
+                  initialValues={{ specialInstructions: "", addons: [], price: itemDetails.price, size: "" }}
                   onSubmit={(data) => {
                     console.log(data);
                   }}
@@ -65,10 +63,19 @@ function ItemDrawer(props) {
                           </Text>
                           <RadioGroup>
                             <Stack paddingTop="5px" paddingLeft="10px" spacing="15px" paddingBottom="15px">
-                              {itemDetails.sizes.map((size, index) => (
-                                <Box>
-                                  <Radio size="lg" colorScheme="green" key={size} name="size" value={size} onChange={handleChange}>
-                                    <Text fontSize="md">{size}</Text>
+                              {itemDetails.sizes.map((size) => (
+                                <Box key={size.name}>
+                                  <Radio
+                                    size="lg"
+                                    colorScheme="green"
+                                    name="size"
+                                    value={size.name}
+                                    onChange={(e) => {
+                                      values.price = size.price;
+                                      handleChange(e);
+                                    }}
+                                  >
+                                    <Text fontSize="md">{size.name}</Text>
                                   </Radio>
                                   <Divider position="relative" top="6px"></Divider>
                                 </Box>
@@ -85,16 +92,8 @@ function ItemDrawer(props) {
                           </Text>
                           <Stack paddingTop="10px" paddingLeft="10px" spacing="15px" paddingBottom="10px">
                             {itemDetails.addons.map((addon) => (
-                              <Box>
-                                <Checkbox
-                                  key={addon}
-                                  onChange={handleChange}
-                                  name="addons"
-                                  type="checkbox"
-                                  value={addon}
-                                  size="lg"
-                                  colorScheme="green"
-                                >
+                              <Box key={addon}>
+                                <Checkbox onChange={handleChange} name="addons" type="checkbox" value={addon} size="lg" colorScheme="green">
                                   <Text fontSize="md">{addon}</Text>
                                 </Checkbox>
                                 <Divider position="relative" top="6px"></Divider>
@@ -108,16 +107,15 @@ function ItemDrawer(props) {
                         Special Instructions:
                       </Text>
                       <Center>
-                        <Input
+                        <Textarea
                           name="specialInstructions"
                           value={values.specialInstructions}
                           onChange={handleChange}
-                          variant="filled"
                           w="315px"
                           h="75px"
                           fontSize="16px"
-                        ></Input>
-                        <Input type="hidden" onSubmit={handleSubmit} name="price" value={parseFloat(itemDetails.price)}></Input>
+                          variant="filled"
+                        ></Textarea>
                       </Center>
                     </form>
                   )}
@@ -131,7 +129,13 @@ function ItemDrawer(props) {
           <Button type="submit" form="drawerForm" width="320px" rounded="full" colorScheme="green" fontSize="md" fontWeight="normal">
             <Text>Add to Order</Text>
             <Text fontSize="smx" marginLeft="15px" paddingX="6px" paddingY="3px" rounded="5" bg="rgba(255, 255, 255, 0.15)">
-              {itemDetails.price + itemDetails.priceSecondary}
+              {itemDetails.sizes != null
+                ? itemDetails.sizes.length > 1
+                  ? itemDetails.sizes.map((size, i) =>
+                      itemDetails.sizes.length === i + 1 ? size.price + " " + size.name : size.price + " " + size.name + " | "
+                    )
+                  : itemDetails.price
+                : null}
             </Text>
           </Button>
         </DrawerFooter>

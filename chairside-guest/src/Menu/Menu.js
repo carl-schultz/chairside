@@ -18,7 +18,7 @@ const Menu = (props) => {
 
   return (
     <Box>
-      <Box paddingLeft="24px" paddingTop="107px">
+      <Box paddingLeft="24px" paddingTop="30px">
         <MenuCategoryLabel label="Our Menu" />
       </Box>
       <Grid float="left" marginTop="10px" width="100%">

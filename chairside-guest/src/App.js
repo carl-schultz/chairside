@@ -7,7 +7,7 @@ import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
 const theme = extendTheme({
   colors: {
     100: "#0A0724", //black
-    200: "#F4F4F4", //grey background
+    200: "#f1f1f1", //grey background
     300: "#9B9B9B", //grey text
     400: "#58AF92", //green
     500: "#707070", //greyText a little darker
@@ -35,6 +35,7 @@ const theme = extendTheme({
   },
   fontSizes: {
     lg: "18px",
+    mdx: "16px",
     md: "15px",
     sm: "13px",
     smx: "14px",
@@ -60,9 +61,10 @@ class App extends Component {
             name: "Country Bread",
             description: "Oil, balsamic, & red pepper.",
             secondaryDescription: "",
-            price: "$4.50 half",
-            priceSecondary: " | $6.50 full",
-            sizes: ["Half", "Full"],
+            sizes: [
+              { name: "Half", price: "$5.00" },
+              { name: "Full", price: "$10.00" },
+            ],
             img: "/images/countrybread.png",
             modificationsDescription: null,
             addons: [],
@@ -72,7 +74,6 @@ class App extends Component {
             description: "Chesapeake style lump crab, arugula salad, lemon aioli.",
             secondaryDescription: "",
             price: "$16.00",
-            priceSecondary: "",
             sizes: [],
             img: "/images/crabcakes.png",
             modificationsDescription: null,
@@ -98,9 +99,10 @@ class App extends Component {
             name: "Soup of the Day",
             description: "Chef's daily selection.",
             secondaryDescription: "",
-            price: "$5.00 half",
-            priceSecondary: " | $9.00 full",
-            sizes: ["Half", "Full"],
+            sizes: [
+              { name: "Half", price: "$5.00" },
+              { name: "Full", price: "$9.00" },
+            ],
             img: "/images/soupoftheday.png",
             modificationsDescription: null,
             addons: [],

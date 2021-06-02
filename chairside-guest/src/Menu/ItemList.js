@@ -1,6 +1,6 @@
 import React from "react";
 import MenuCategoryLabel from "./MenuCategoryLabel";
-import { Box, Stack, Button, HStack, Image, Text, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Stack, HStack, Image, Text, Grid, GridItem } from "@chakra-ui/react";
 
 function ItemList(props) {
   const items = props.items;
@@ -29,10 +29,10 @@ function ItemList(props) {
               onClick={() => serveDrawer(details)}
             >
               <HStack spacing="17px" align="top">
-                <Image src={details.img} boxSize="75px" borderRadius="22px"></Image>
+                <Image src={details.img} boxSize="75px" borderRadius="20px"></Image>
                 <Grid templateRows="2">
                   <GridItem rowStart="1">
-                    <Text font="body" fontSize="md" color="100">
+                    <Text font="body" fontSize="mdx" color="100">
                       {details.name}
                     </Text>
                     <Text font="body" fontSize="md" color="300" lineHeight="normal">
@@ -44,7 +44,11 @@ function ItemList(props) {
                   </GridItem>
                   <GridItem rowStart="10">
                     <Text font="body" fontSize="md" color="400" paddingTop="3px">
-                      {details.price + details.priceSecondary}
+                      {details.sizes.length > 1
+                        ? details.sizes.map((size, i) =>
+                            details.sizes.length === i + 1 ? size.price + " " + size.name : size.price + " " + size.name + " | "
+                          )
+                        : details.price}
                     </Text>
                   </GridItem>
                 </Grid>
