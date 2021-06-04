@@ -18,13 +18,30 @@ import {
   Box,
   Radio,
   RadioGroup,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
-import { Formik } from "formik";
+
+import { Formik, Field, Form } from "formik";
 
 function ItemDrawer(props) {
   const isOpen = props.isOpen;
   const onClose = props.onClose;
   const itemDetails = props.itemDetails;
+  const addToOrder = props.addToOrder;
+  //this variable is to prevent the modal from closing if size is not selected
+  var radioUnselected = true;
+  const toast = useToast();
+
+  function validateSize(value) {
+    let error;
+    if (!value) {
+      error = "Please select a size";
+    }
+    return error;
+  }
 
   return (
     <Drawer colorScheme="green" isOpen={isOpen} placement="bottom" onClose={onClose} isFullHeight="true">
@@ -49,41 +66,68 @@ function ItemDrawer(props) {
               </Text>
               <Box>
                 <Formik
-                  initialValues={{ specialInstructions: "", addons: [], price: itemDetails.price, size: "" }}
+                  initialValues={{ name: itemDetails.name, size: "", specialInstructions: "", addons: [], price: itemDetails.price }}
                   onSubmit={(data) => {
-                    console.log(data);
+                    addToOrder(data);
                   }}
                 >
-                  {({ values, handleChange, handleSubmit }) => (
-                    <form id="drawerForm" onSubmit={handleSubmit}>
+                  {(props) => (
+                    <Form
+                      id="drawerForm"
+                      onSubmit={(e) => {
+                        props.handleSubmit(e);
+                        if (radioUnselected === false) {
+                          onClose();
+                          toast({
+                            title: "Item added to order!",
+                            status: "success",
+                            duration: 2000,
+                            isClosable: false,
+                            position: "top",
+                          });
+                        }
+                      }}
+                    >
                       {itemDetails.sizes.length !== 0 ? (
-                        <Box>
-                          <Text paddingLeft="5px" font="body" fontSize="md" color="100" fontWeight="semibold">
-                            Size:
-                          </Text>
-                          <RadioGroup>
-                            <Stack paddingTop="5px" paddingLeft="10px" spacing="15px" paddingBottom="15px">
-                              {itemDetails.sizes.map((size) => (
-                                <Box key={size.name}>
-                                  <Radio
-                                    size="lg"
-                                    colorScheme="green"
-                                    name="size"
-                                    value={size.name}
-                                    onChange={(e) => {
-                                      values.price = size.price;
-                                      handleChange(e);
-                                    }}
-                                  >
-                                    <Text fontSize="md">{size.name}</Text>
-                                  </Radio>
-                                  <Divider position="relative" top="6px"></Divider>
-                                </Box>
-                              ))}
-                            </Stack>
-                          </RadioGroup>
-                        </Box>
-                      ) : null}
+                        <Field name="size" validate={validateSize}>
+                          {({ field, form }) => (
+                            <FormControl isInvalid={form.errors.size && form.touched.size}>
+                              <Text as={FormLabel} htmlFor="size" paddingLeft="5px" font="body" fontSize="md" color="100" fontWeight="semibold">
+                                Size:{" "}
+                                <FormErrorMessage margin="0px" w="150px" bg="red.100" paddingX="10px" rounded="5px">
+                                  {form.errors.size}
+                                </FormErrorMessage>
+                              </Text>
+
+                              <RadioGroup {...field}>
+                                <Stack paddingLeft="10px" spacing="15px" paddingBottom="15px">
+                                  {itemDetails.sizes.map((size) => (
+                                    <Box key={size.name}>
+                                      <Radio
+                                        size="lg"
+                                        width="50%"
+                                        colorScheme="green"
+                                        name="size"
+                                        value={size.name}
+                                        onChange={(e) => {
+                                          props.values.price = size.price;
+                                          radioUnselected = false;
+                                          props.handleChange(e);
+                                        }}
+                                      >
+                                        <Text fontSize="md">{size.name}</Text>
+                                      </Radio>
+                                      <Divider position="relative" top="6px"></Divider>
+                                    </Box>
+                                  ))}
+                                </Stack>
+                              </RadioGroup>
+                            </FormControl>
+                          )}
+                        </Field>
+                      ) : (
+                        (radioUnselected = false)
+                      )}
 
                       {itemDetails.addons.length !== 0 ? (
                         <Box>
@@ -93,7 +137,15 @@ function ItemDrawer(props) {
                           <Stack paddingTop="10px" paddingLeft="10px" spacing="15px" paddingBottom="10px">
                             {itemDetails.addons.map((addon) => (
                               <Box key={addon}>
-                                <Checkbox onChange={handleChange} name="addons" type="checkbox" value={addon} size="lg" colorScheme="green">
+                                <Checkbox
+                                  onChange={props.handleChange}
+                                  name="addons"
+                                  type="checkbox"
+                                  value={addon}
+                                  size="lg"
+                                  colorScheme="green"
+                                  width="50%"
+                                >
                                   <Text fontSize="md">{addon}</Text>
                                 </Checkbox>
                                 <Divider position="relative" top="6px"></Divider>
@@ -109,15 +161,15 @@ function ItemDrawer(props) {
                       <Center>
                         <Textarea
                           name="specialInstructions"
-                          value={values.specialInstructions}
-                          onChange={handleChange}
+                          value={props.values.specialInstructions}
+                          onChange={props.handleChange}
                           w="315px"
                           h="75px"
                           fontSize="16px"
                           variant="filled"
                         ></Textarea>
                       </Center>
-                    </form>
+                    </Form>
                   )}
                 </Formik>
               </Box>

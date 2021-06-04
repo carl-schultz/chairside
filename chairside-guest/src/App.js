@@ -1,8 +1,10 @@
 import "focus-visible/dist/focus-visible";
 import "./App.css";
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Menu from "./Menu/Menu";
-import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
+import OrderSummary from "./OrderSummary/OrderSummary";
+import { Route, Switch } from "react-router-dom";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
   colors: {
@@ -51,156 +53,163 @@ const theme = extendTheme({
   },
 });
 
-class App extends Component {
-  render() {
-    const items = [
-      {
-        category: "Shareables",
-        categoryItems: [
-          {
-            name: "Country Bread",
-            description: "Oil, balsamic, & red pepper.",
-            secondaryDescription: "",
-            sizes: [
-              { name: "Half", price: "$5.00" },
-              { name: "Full", price: "$10.00" },
-            ],
-            img: "/images/countrybread.png",
-            modificationsDescription: null,
-            addons: [],
-          },
-          {
-            name: "Crab Cakes",
-            description: "Chesapeake style lump crab, arugula salad, lemon aioli.",
-            secondaryDescription: "",
-            price: "$16.00",
-            sizes: [],
-            img: "/images/crabcakes.png",
-            modificationsDescription: null,
-            addons: [],
-          },
-        ],
-      },
-      {
-        category: "Salads",
-        categoryItems: [
-          {
-            name: "Vineyard",
-            description: "Mixed greens, red onion, cucumber, olives, croutons, tomato, feta, basil & champagne vinaigrette",
-            secondaryDescription: "Serves 2-4",
-            price: "$7.00 half",
-            priceSecondary: " | $13.00 full",
-            sizes: ["Half", "Full"],
-            img: "/images/vineyard.png",
-            modificationsDescription: "Add protein: ",
-            addons: ["Chicken 6oz", "Salmon 4oz", "Scallops 2ct", "Tuna 4oz"],
-          },
-          {
-            name: "Soup of the Day",
-            description: "Chef's daily selection.",
-            secondaryDescription: "",
-            sizes: [
-              { name: "Half", price: "$5.00" },
-              { name: "Full", price: "$9.00" },
-            ],
-            img: "/images/soupoftheday.png",
-            modificationsDescription: null,
-            addons: [],
-          },
-        ],
-      },
-      {
-        category: "Pizzas",
-        categoryItems: [
-          {
-            name: "Prosciutto & Ricotta",
-            description: "Ricotta, mozzarella, thinly sliced prosciutto, roaster garlic oil, black lava salt, hot honey, arugula & lemon juice.",
-            secondaryDescription: "Serves 2-4",
-            price: "$16.50",
-            priceSecondary: "",
-            sizes: [],
-            img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
-            modificationsDescription: "Add extra toppings to your pizza",
-            addons: ["Pepparoni", "Mushroom", "Sausage"],
-          },
-          {
-            name: "Margherita",
-            description: "House red sauce, fresh mozzarella, sliced tomato, balsamic & basil",
-            secondaryDescription: "Serves 2-4",
-            price: "$16.50",
-            priceSecondary: "",
-            sizes: [],
-            img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
-            modificationsDescription: "Add extra toppings to your pizza",
-            addons: ["Pepparoni", "Mushroom", "Sausage", "Cheese"],
-          },
-        ],
-      },
-      {
-        category: "Wines",
-        categoryItems: [
-          {
-            name: "2019 Chardonnay",
-            description: "Flavor Profile: Vanilla, Apple, Butter & Oak.",
-            secondaryDescription: "Bottles also available",
-            price: "$10.00",
-            priceSecondary: "",
-            sizes: [],
-            img: "/images/chardonnay.png",
-            modificationsDescription: null,
-            addons: [],
-          },
-          {
-            name: "2015 Sauvignon Blanc",
-            description: "Chesapeake style Flavor Profile: Melon, Pear & Grapefruit crab, arugula salad, lemon aioli.",
-            secondaryDescription: "Bottles also available",
-            price: "$9.00",
-            priceSecondary: "",
-            sizes: [],
-            img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
-            modificationsDescription: null,
-            addons: [],
-          },
-          {
-            name: "2018 Merlot",
-            description: "Flavor Profile: Cherry, Strawberry, Vanilla & Fig.",
-            secondaryDescription: "Bottles also available",
-            price: "$11.00",
-            priceSecondary: "",
-            sizes: [],
-            img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
-            modificationsDescription: null,
-            addons: [],
-          },
-        ],
-      },
-      {
-        category: "Beverages",
-        categoryItems: [
-          {
-            name: "Latte",
-            description: "",
-            secondaryDescription: "",
-            price: "$4.00",
-            priceSecondary: "",
-            sizes: [],
-            img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
-            modificationsDescription: null,
-            addons: [],
-          },
-        ],
-      },
-    ];
+function App() {
+  const items = [
+    {
+      category: "Shareables",
+      categoryItems: [
+        {
+          name: "Country Bread",
+          description: "Oil, balsamic, & red pepper.",
+          secondaryDescription: "",
+          sizes: [
+            { name: "Half", price: "$5.00" },
+            { name: "Full", price: "$10.00" },
+          ],
+          img: "/images/countrybread.png",
+          modificationsDescription: null,
+          addons: [],
+        },
+        {
+          name: "Crab Cakes",
+          description: "Chesapeake style lump crab, arugula salad, lemon aioli.",
+          secondaryDescription: "",
+          price: "$16.00",
+          sizes: [],
+          img: "/images/crabcakes.png",
+          modificationsDescription: null,
+          addons: [],
+        },
+      ],
+    },
+    {
+      category: "Salads",
+      categoryItems: [
+        {
+          name: "Vineyard",
+          description: "Mixed greens, red onion, cucumber, olives, croutons, tomato, feta, basil & champagne vinaigrette",
+          secondaryDescription: "Serves 2-4",
+          sizes: [
+            { name: "Half", price: "$5.00" },
+            { name: "Full", price: "$10.00" },
+          ],
+          img: "/images/vineyard.png",
+          modificationsDescription: "Add protein: ",
+          addons: ["Chicken 6oz", "Salmon 4oz", "Scallops 2ct", "Tuna 4oz"],
+        },
+        {
+          name: "Soup of the Day",
+          description: "Chef's daily selection.",
+          secondaryDescription: "",
+          sizes: [
+            { name: "Half", price: "$5.00" },
+            { name: "Full", price: "$9.00" },
+          ],
+          img: "/images/soupoftheday.png",
+          modificationsDescription: null,
+          addons: [],
+        },
+      ],
+    },
+    {
+      category: "Pizzas",
+      categoryItems: [
+        {
+          name: "Prosciutto & Ricotta",
+          description: "Ricotta, mozzarella, thinly sliced prosciutto, roaster garlic oil, black lava salt, hot honey, arugula & lemon juice.",
+          secondaryDescription: "Serves 2-4",
+          price: "$16.50",
+          sizes: [],
+          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
+          modificationsDescription: "Add extra toppings to your pizza",
+          addons: ["Pepparoni", "Mushroom", "Sausage"],
+        },
+        {
+          name: "Margherita",
+          description: "House red sauce, fresh mozzarella, sliced tomato, balsamic & basil",
+          secondaryDescription: "Serves 2-4",
+          price: "$16.50",
+          sizes: [],
+          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
+          modificationsDescription: "Add extra toppings to your pizza",
+          addons: ["Pepparoni", "Mushroom", "Sausage", "Cheese"],
+        },
+      ],
+    },
+    {
+      category: "Wines",
+      categoryItems: [
+        {
+          name: "2019 Chardonnay",
+          description: "Flavor Profile: Vanilla, Apple, Butter & Oak.",
+          secondaryDescription: "Bottles also available",
+          price: "$10.00",
+          sizes: [],
+          img: "/images/chardonnay.png",
+          modificationsDescription: null,
+          addons: [],
+        },
+        {
+          name: "2015 Sauvignon Blanc",
+          description: "Chesapeake style Flavor Profile: Melon, Pear & Grapefruit crab, arugula salad, lemon aioli.",
+          secondaryDescription: "Bottles also available",
+          price: "$9.00",
+          sizes: [],
+          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
+          modificationsDescription: null,
+          addons: [],
+        },
+        {
+          name: "2018 Merlot",
+          description: "Flavor Profile: Cherry, Strawberry, Vanilla & Fig.",
+          secondaryDescription: "Bottles also available",
+          price: "$11.00",
+          sizes: [],
+          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
+          modificationsDescription: null,
+          addons: [],
+        },
+      ],
+    },
+    {
+      category: "Beverages",
+      categoryItems: [
+        {
+          name: "Latte",
+          description: "",
+          secondaryDescription: "",
+          price: "$4.00",
+          sizes: [],
+          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
+          modificationsDescription: null,
+          addons: [],
+        },
+      ],
+    },
+  ];
 
-    return (
-      <Box paddingBottom="30px">
-        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"></link>
-        <ChakraProvider theme={theme}>
-          <Menu items={items} />
-        </ChakraProvider>
-      </Box>
-    );
-  }
+  const [orders, setOrders] = useState([]);
+
+  const addToOrder = (item) => {
+    console.log("item to be added: " + item.name);
+    setOrders([...orders, { ...item }]);
+  };
+
+  const removeFromOrder = (itemToRemove) => {
+    setOrders(orders.filter((item) => item !== itemToRemove));
+  };
+
+  return (
+    <ChakraProvider theme={theme}>
+      <Switch>
+        <Route exact path="/">
+          <Menu items={items} addToOrder={addToOrder} orderSize={orders.length} />
+        </Route>
+        <Route path="/order">
+          <OrderSummary orders={orders} removeFromOrder={removeFromOrder} />
+        </Route>
+      </Switch>
+    </ChakraProvider>
+  );
 }
 export default App;
