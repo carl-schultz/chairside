@@ -22,6 +22,8 @@ import {
   FormLabel,
   FormErrorMessage,
   useToast,
+  Tag,
+  TagLabel,
 } from "@chakra-ui/react";
 
 import { Formik, Field, Form } from "formik";
@@ -81,9 +83,9 @@ function ItemDrawer(props) {
                           toast({
                             title: "Item added to order!",
                             status: "success",
-                            duration: 2000,
+                            duration: 2500,
                             isClosable: false,
-                            position: "top",
+                            position: "bottom",
                           });
                         }
                       }}
@@ -93,7 +95,10 @@ function ItemDrawer(props) {
                           {({ field, form }) => (
                             <FormControl isInvalid={form.errors.size && form.touched.size}>
                               <Text as={FormLabel} htmlFor="size" paddingLeft="5px" font="body" fontSize="md" color="100" fontWeight="semibold">
-                                Size:{" "}
+                                Size
+                                <Tag as="span" rounded="full" marginLeft="5px" size="sm" variant="subtle" float="right" colorScheme="yellow">
+                                  <TagLabel>Required</TagLabel>
+                                </Tag>
                                 <FormErrorMessage margin="0px" w="150px" bg="red.100" paddingX="10px" rounded="5px">
                                   {form.errors.size}
                                 </FormErrorMessage>
@@ -156,7 +161,7 @@ function ItemDrawer(props) {
                       ) : null}
 
                       <Text paddingLeft="5px" paddingTop="5px" paddingBottom="10px" font="body" fontSize="md" color="100" fontWeight="semibold">
-                        Special Instructions:
+                        Special Instructions
                       </Text>
                       <Center>
                         <Textarea

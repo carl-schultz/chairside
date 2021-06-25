@@ -1,9 +1,11 @@
 import "focus-visible/dist/focus-visible";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import queryString from "query-string";
+import { useLocation } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import OrderSummary from "./OrderSummary/OrderSummary";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useParams, BrowserRouter } from "react-router-dom";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
@@ -187,13 +189,23 @@ function App() {
       ],
     },
   ];
+  const { search } = useLocation();
+  const values = queryString.parse(search);
 
+  const [tableNumber, setTableNumber] = useState();
   const [orders, setOrders] = useState([]);
+  const { restaurant } = useParams();
 
   const addToOrder = (item) => {
     console.log("item to be added: " + item.name);
     setOrders([...orders, { ...item }]);
   };
+
+  //logic to set the table number
+  useEffect(() => {
+    setTableNumber(values.table);
+    console.log("table: " + values.table);
+  }, [values.table, setTableNumber]);
 
   const removeFromOrder = (itemToRemove) => {
     setOrders(orders.filter((item) => item !== itemToRemove));
@@ -201,14 +213,16 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Switch>
-        <Route exact path="/">
-          <Menu items={items} addToOrder={addToOrder} orderSize={orders.length} />
-        </Route>
-        <Route path="/order">
-          <OrderSummary orders={orders} removeFromOrder={removeFromOrder} />
-        </Route>
-      </Switch>
+      <BrowserRouter basename={restaurant}>
+        <Switch>
+          <Route exact path="/">
+            <Menu items={items} addToOrder={addToOrder} orders={orders} />
+          </Route>
+          <Route path="/order">
+            <OrderSummary orders={orders} removeFromOrder={removeFromOrder} tableNumber={tableNumber} />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </ChakraProvider>
   );
 }

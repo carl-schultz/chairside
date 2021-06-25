@@ -1,29 +1,34 @@
-import { Box, IconButton, Icon, HStack, Tag, Heading, Divider, Stack, Text, Button } from "@chakra-ui/react";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Box, IconButton, Center, Icon, HStack, Tag, Heading, Divider, Stack, Text, Button } from "@chakra-ui/react";
 import { IoArrowBack } from "react-icons/io5";
+import { useHistory } from "react-router-dom";
 
 function OrderSummary(props) {
   const removeFromOrder = props.removeFromOrder;
   const orders = props.orders;
+  const tableNumber = props.tableNumber;
   var subtotal = 0;
   orders.map((order) => (subtotal = subtotal + +parseFloat(order.price.substr(1))));
+  let history = useHistory();
+  window.scrollTo(0, 0);
 
   return (
     <Box padding="24px">
       <HStack justifyContent="space-between">
         <IconButton
-          as={ReactRouterLink}
-          to="/"
           aria-label="back button"
           icon={<Icon as={IoArrowBack} w="20px" h="20px" />}
           isRound="true"
           size="sm"
           backgroundColor="200"
+          onClick={() => history.goBack()}
         ></IconButton>
         <Heading font="heading" fontWeight="semibold" fontSize="lg" color="100">
           Your Order
+          <Text color="400" fontSize="md" align="center" position="relative" top="5px">
+            Table {tableNumber}
+          </Text>
         </Heading>
-        <Tag size="lg" borderRadius="full" colorScheme="green" font="poppins" fontWeight="semibold">
+        <Tag size="lg" borderRadius="full" colorScheme="green" font="poppins" fontWeight="semibold" justifyContent="center">
           {orders.length}
         </Tag>
       </HStack>
@@ -55,9 +60,11 @@ function OrderSummary(props) {
         <Text>Subtotal</Text>
         <Text>${subtotal.toFixed(2)}</Text>
       </HStack>
-      <Button width="320px" rounded="5px" colorScheme="green" fontSize="md" fontWeight="semibold" marginTop="20px">
-        Checkout
-      </Button>
+      <Center>
+        <Button width="320px" rounded="5px" colorScheme="green" fontSize="md" fontWeight="semibold" marginTop="20px">
+          Checkout
+        </Button>
+      </Center>
     </Box>
   );
 }

@@ -1,8 +1,7 @@
-import React from "react";
 import { Button, Container, ButtonGroup } from "@chakra-ui/react";
 import { scroller } from "react-scroll";
 
-const CategoryCarousel = (props) => {
+function CategoryCarousel(props) {
   const items = props.items;
   return (
     <Container width="100%" overflowX="" overflowY="hidden" whiteSpace="nowrap" paddingLeft="24px" margin="0px" maxWidth="100vw">
@@ -32,6 +31,6 @@ const CategoryCarousel = (props) => {
       </ButtonGroup>
     </Container>
   );
-};
+}
 
 export default CategoryCarousel;

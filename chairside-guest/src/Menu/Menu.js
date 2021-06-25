@@ -1,16 +1,15 @@
 import React, { useState } from "react";
+import OrderBar from "./OrderBar";
 import MenuCategoryLabel from "./MenuCategoryLabel";
 import CategoryCarousel from "./CategoryCarousel";
 import ItemList from "./ItemList";
 import ItemDrawer from "./ItemDrawer";
-import { Box, Grid, Button, Text, Icon } from "@chakra-ui/react";
-import { Link as ReactRouterLink } from "react-router-dom";
-import { IoReceipt } from "react-icons/io5";
+import { Box, Grid } from "@chakra-ui/react";
 
 const Menu = (props) => {
   const items = props.items;
   const addToOrder = props.addToOrder;
-  const orderSize = props.orderSize;
+  const orders = props.orders;
   //used to manage if the modal is open or closed
   const [isModalOpen, setModalOpen] = useState(false);
   const setModalClosed = () => setModalOpen(false);
@@ -25,15 +24,10 @@ const Menu = (props) => {
 
   return (
     <Box>
-      <Box align="right" paddingTop="10px">
-        <Button as={ReactRouterLink} to="/order" variant="ghost">
-          <Icon as={IoReceipt} w="30px" h="30px" paddingRight="5px" color="400" />
-          <Text as="span" font="heading" fontSize="lg" color="300">
-            ({orderSize})
-          </Text>
-        </Button>
+      <Box align="center" w="100%" position="fixed" zIndex="banner">
+        <OrderBar orders={orders} />
       </Box>
-      <Box paddingLeft="24px" paddingTop="10px">
+      <Box paddingLeft="24px" paddingTop="70px">
         <MenuCategoryLabel label="Our Menu" />
       </Box>
       <Grid float="left" marginTop="10px" width="100%">
