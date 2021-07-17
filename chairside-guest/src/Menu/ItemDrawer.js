@@ -68,9 +68,10 @@ function ItemDrawer(props) {
               </Text>
               <Box>
                 <Formik
-                  initialValues={{ name: itemDetails.name, size: "", specialInstructions: "", addons: [], price: itemDetails.price }}
+                  initialValues={{ name: itemDetails.name, size: "", addons: [], specialInstructions: "", itemID: itemDetails.itemID}}
                   onSubmit={(data) => {
                     addToOrder(data);
+                    console.log(data);
                   }}
                 >
                   {(props) => (
@@ -134,7 +135,7 @@ function ItemDrawer(props) {
                         (radioUnselected = false)
                       )}
 
-                      {itemDetails.addons.length !== 0 ? (
+                      {itemDetails.addons[0] !== null ? (
                         <Box>
                           <Text paddingLeft="5px" font="body" fontSize="md" color="100" fontWeight="semibold">
                             {itemDetails.modificationsDescription}

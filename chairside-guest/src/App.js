@@ -69,7 +69,7 @@ function App() {
             { name: "Full", price: "$10.00" },
           ],
           img: "/images/countrybread.png",
-          modificationsDescription: null,
+          modificationsDescription: "",
           addons: [],
         },
         {
@@ -97,7 +97,12 @@ function App() {
           ],
           img: "/images/vineyard.png",
           modificationsDescription: "Add protein: ",
-          addons: ["Chicken 6oz", "Salmon 4oz", "Scallops 2ct", "Tuna 4oz"],
+          addons: [
+            { name: "Chicken 6oz", price: "$4.00" },
+            { name: "Salmon 4oz", price: "$6.00" },
+            { name: "Scallops 4oz", price: "$6.00" },
+            { name: "Tuna 4oz", price: "$6.00" },
+          ],
         },
         {
           name: "Soup of the Day",
@@ -195,6 +200,8 @@ function App() {
   const [tableNumber, setTableNumber] = useState();
   const [orders, setOrders] = useState([]);
   const { restaurant } = useParams();
+  const [menu, setMenu] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const addToOrder = (item) => {
     console.log("item to be added: " + item.name);
@@ -207,6 +214,18 @@ function App() {
     console.log("table: " + values.table);
   }, [values.table, setTableNumber]);
 
+  //API menu fetch
+  useEffect(() => {
+    setLoading(true);
+    // GET request
+    const fetchURL = "http://localhost:5001/chairsideguest/us-central1/api/" + restaurant + "/menu"
+      fetch(fetchURL)
+        .then(response => response.json())
+        .then(data => setMenu(data)).finally(() => {
+          setTimeout(() => (setLoading(false)), 2000);
+        });
+  }, []);
+
   const removeFromOrder = (itemToRemove) => {
     setOrders(orders.filter((item) => item !== itemToRemove));
   };
@@ -216,7 +235,7 @@ function App() {
       <BrowserRouter basename={restaurant}>
         <Switch>
           <Route exact path="/">
-            <Menu items={items} addToOrder={addToOrder} orders={orders} />
+            <Menu items={menu} addToOrder={addToOrder} orders={orders} loading={loading}/>
           </Route>
           <Route path="/order">
             <OrderSummary orders={orders} removeFromOrder={removeFromOrder} tableNumber={tableNumber} />
