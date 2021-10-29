@@ -68,7 +68,7 @@ function ItemDrawer(props) {
               </Text>
               <Box>
                 <Formik
-                  initialValues={{ name: itemDetails.name, size: "", addons: [], specialInstructions: "", itemID: itemDetails.itemID}}
+                  initialValues={{ name: itemDetails.name, size: "", addons: [], specialInstructions: "", price: itemDetails.price}}
                   onSubmit={(data) => {
                     addToOrder(data);
                     console.log(data);
@@ -147,12 +147,12 @@ function ItemDrawer(props) {
                                   onChange={props.handleChange}
                                   name="addons"
                                   type="checkbox"
-                                  value={addon}
+                                  value={addon.name}
                                   size="lg"
                                   colorScheme="green"
                                   width="50%"
                                 >
-                                  <Text fontSize="md">{addon}</Text>
+                                  <Text fontSize="md">{addon.name}</Text>
                                 </Checkbox>
                                 <Divider position="relative" top="6px"></Divider>
                               </Box>

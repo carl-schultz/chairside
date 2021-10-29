@@ -4,11 +4,17 @@ import { useHistory } from "react-router-dom";
 
 function OrderSummary(props) {
   const removeFromOrder = props.removeFromOrder;
+  const checkout = props.checkout;
   const orders = props.orders;
   const tableNumber = props.tableNumber;
+
+  //calculate and order subtotal to display at bottom of page
   var subtotal = 0;
   orders.map((order) => (subtotal = subtotal + +parseFloat(order.price.substr(1))));
+
+  //history so that back-button navigates back to menu
   let history = useHistory();
+  //sets scroll to top of page so scroll history is not kept when entering order summary page
   window.scrollTo(0, 0);
 
   return (
@@ -61,7 +67,7 @@ function OrderSummary(props) {
         <Text>${subtotal.toFixed(2)}</Text>
       </HStack>
       <Center>
-        <Button width="320px" rounded="5px" colorScheme="green" fontSize="md" fontWeight="semibold" marginTop="20px">
+        <Button width="320px" rounded="5px" colorScheme="green" fontSize="md" fontWeight="semibold" marginTop="20px" onClick={() => {checkout()}}>
           Checkout
         </Button>
       </Center>
