@@ -74,17 +74,31 @@ function App() {
           </Button>
           <Button
             as="a"
+            href="https://eat.chairside.app/demo"
+            target="_blank"
+            variant="ghost"
+            fontFamily="Poppins"
+            fontSize="16px"
+            color="#484848"
+            rounded="full"
+            _hover={{ bg: "white" }}
+            display={{ base: "none", sm: "none", mediumsmall: "inherit" }}
+          >
+            Demo
+          </Button>
+          <Button
+            as="a"
             href="mailto:hellochairside@gmail.com"
             fontFamily="Poppins"
             color="#484848"
             bg="white"
             rounded="full"
             px="20px"
-            display={{ base: "none", sm: "inherit" }}
+            display={{ base: "none", sm: "none", mediumsmall: "inherit" }}
           >
             Contact Us
           </Button>
-          <IconButton colorScheme="none" color="black" icon={<HamburgerIcon />} onClick={onOpen} display={{ sm: "none" }} />
+          <IconButton colorScheme="none" color="black" icon={<HamburgerIcon />} onClick={onOpen} display={{ mediumsmall: "none" }} />
         </HStack>
       </Flex>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
@@ -131,6 +145,21 @@ function App() {
                   }}
                 >
                   Pricing
+                </Button>
+                <Button
+                  as="a"
+                  href="https://eat.chairside.app/demo"
+                  target="_blank"
+                  width="fit-content"
+                  variant="ghost"
+                  fontFamily="Poppins"
+                  fontSize="16px"
+                  color="#484848"
+                  rounded="full"
+                  right="12px"
+                  top="7px"
+                >
+                  Demo
                 </Button>
                 <Spacer padding="10px" />
                 <Button as="a" href="mailto:hellochairside@gmail.com" fontFamily="Poppins" color="#484848" bg="#f8f5ec" rounded="full" w="full">

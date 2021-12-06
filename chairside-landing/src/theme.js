@@ -6,7 +6,7 @@ const theme = extendTheme({
     text: "Poppins",
   },
   breakpoints: {
-    mediumsmall: "777px",
+    mediumsmall: "800px",
   },
 });
 

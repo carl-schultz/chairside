@@ -183,7 +183,7 @@ function ItemDrawer(props) {
           </Center>
         </DrawerBody>
         <Divider position="relative" bottom="10px" margin={0}></Divider>
-        <DrawerFooter justifyContent="center" paddingBottom="10px" paddingTop="0px">
+        <DrawerFooter justifyContent="center" paddingBottom="20px" paddingTop="0px">
           <Button type="submit" form="drawerForm" width="320px" rounded="full" colorScheme="green" fontSize="md" fontWeight="normal">
             <Text>Add to Order</Text>
             <Text fontSize="smx" marginLeft="15px" paddingX="6px" paddingY="3px" rounded="5" bg="rgba(255, 255, 255, 0.15)">
