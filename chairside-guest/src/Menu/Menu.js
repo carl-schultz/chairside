@@ -25,7 +25,7 @@ const Menu = (props) => {
 
   return (
     <Box>
-      <Box align="center" w="100%" position="fixed" zIndex="banner">
+      <Box align="center" w="100%" maxW="container.md" position="fixed" zIndex="banner">
         <OrderBar orders={orders} />
       </Box>
       <Box paddingLeft="24px" paddingTop="70px">

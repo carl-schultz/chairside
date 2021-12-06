@@ -18,7 +18,7 @@ function OrderSummary(props) {
   window.scrollTo(0, 0);
 
   return (
-    <Box padding="24px">
+    <Box padding="24px" w="100%">
       <HStack justifyContent="space-between">
         <IconButton
           aria-label="back button"

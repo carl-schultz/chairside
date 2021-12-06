@@ -1,7 +1,7 @@
 import "focus-visible/dist/focus-visible";
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Container } from "@chakra-ui/react";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import { Route, Switch, useParams, BrowserRouter } from "react-router-dom";
@@ -228,7 +228,7 @@ function App() {
           secondaryDescription: "Serves 2-4",
           price: "$16.50",
           sizes: [],
-          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
+          img: "/images/prosciutto.png",
           modificationsDescription: "Add extra toppings to your pizza",
           addons: ["Pepparoni", "Mushroom", "Sausage", "Cheese"],
         },
@@ -247,26 +247,6 @@ function App() {
           modificationsDescription: null,
           addons: [],
         },
-        {
-          name: "2015 Sauvignon Blanc",
-          description: "Chesapeake style Flavor Profile: Melon, Pear & Grapefruit crab, arugula salad, lemon aioli.",
-          secondaryDescription: "Bottles also available",
-          price: "$9.00",
-          sizes: [],
-          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
-          modificationsDescription: null,
-          addons: [],
-        },
-        {
-          name: "2018 Merlot",
-          description: "Flavor Profile: Cherry, Strawberry, Vanilla & Fig.",
-          secondaryDescription: "Bottles also available",
-          price: "$11.00",
-          sizes: [],
-          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
-          modificationsDescription: null,
-          addons: [],
-        },
       ],
     },
     {
@@ -278,7 +258,7 @@ function App() {
           secondaryDescription: "",
           price: "$4.00",
           sizes: [],
-          img: "https://mypizzacorner.com/wp-content/uploads/2020/12/neapolitan-pizza-authentic.jpg",
+          img: "/images/latte.png",
           modificationsDescription: null,
           addons: [],
         },
@@ -299,7 +279,7 @@ function App() {
   const [menu, setMenu] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  //API menu fetch
+  /* //API menu fetch
   useEffect(() => {
     setLoading(true);
     // GET request
@@ -309,7 +289,7 @@ function App() {
         .then(data => setMenu(data)).finally(() => {
           setLoading(false);
         });
-  }, []);
+  }, []); */
 
   //add item to cuatomers order state
   const addToOrder = (item) => {
@@ -337,7 +317,9 @@ function App() {
   //                     successful, add order to orders collection in db
 
   return (
+    
     <ChakraProvider theme={theme}>
+      <Container padding="0" maxW="container.md">
       <BrowserRouter basename={restaurant}>
         <Switch>
           <Route exact path="/">
@@ -348,6 +330,7 @@ function App() {
           </Route>
         </Switch>
       </BrowserRouter>
+      </Container>
     </ChakraProvider>
   );
 }

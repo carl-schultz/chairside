@@ -1,5 +1,5 @@
 import { Button, Text, Icon, HStack, StackItem } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useParams } from "react-router-dom";
+import { Link as ReactRouterLink } from "react-router-dom";
 import { IoReceipt } from "react-icons/io5";
 
 function OrderBar(props) {
